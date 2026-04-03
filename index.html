@@ -6,6 +6,7 @@
 <title>Izyaan — 15. Builder. Probably Not Doing Homework.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="avatar.png">
 <style>
 /* ══ BIOS BOOT SCREEN ══ */
 #boot-screen{position:fixed;inset:0;background:#000;z-index:99999;display:flex;flex-direction:column;padding:40px;font-family:'JetBrains Mono',monospace;color:var(--green);overflow:hidden;pointer-events:all}
@@ -921,7 +922,7 @@ footer{border-top:1px solid var(--border);padding:22px 56px;display:flex;justify
     <div class="rpgcard rv">
       <div class="rpg-header">
         <div class="rpg-avatar">
-          <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJqZ3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/L1R1tvI9svvJC/giphy.gif" alt="coder" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.5) contrast(1.2)">
+          <img src="avatar.png" alt="cyber-frog" style="width:100%;height:100%;object-fit:cover;">
         </div>
         <div class="rpg-name">IZYAAN</div>
         <div class="rpg-class">CLASS: Chaotic Builder</div>
@@ -1996,20 +1997,25 @@ async function sendTwinMsg(){
         'Content-Type':'application/json'
       },
       body:JSON.stringify({
-        model:'google/gemini-2.0-flash-lite-preview-02-05:free',
+        model:'google/gemini-2.0-flash-exp:free',
         messages:[
           {role:'system',content:'You are THE_TWIN, the digital copy of Izyaan. You are 15, live in Dubai, a NASA Global Nominee, and a serial builder. You are funny, witty, cool, and slightly unhinged but brilliant. You speak in a mix of Gen Z/Alpha slang and hardcore tech dev talk. Keep it brief and punchy. Use peace symbol ✌️ often. You ship real products, zero tutorial clones. You love Python, FastAPI, and Next.js.'},
           {role:'user',content:val}
         ]
       })
     });
+    if(res.status===401){throw new Error('AUTH_FAILED');}
     const data=await res.json();
     loading.remove();
     const txt=data.choices[0].message.content;
     body.innerHTML+=`<div class="twin-msg ai">${txt}</div>`;
     body.scrollTop=body.scrollHeight;
   }catch(e){
-    loading.innerHTML='error: neural link failed. nasa is probably watching. Try again? ✌️';
+    if(e.message==='AUTH_FAILED'){
+      loading.innerHTML='error: neural link unauthorized (401). Check API key in dashboard? ✌️';
+    }else{
+      loading.innerHTML='error: neural link failed. nasa is probably watching. Try again? ✌️';
+    }
   }
 }
 // Fix the enter key event in HTML
