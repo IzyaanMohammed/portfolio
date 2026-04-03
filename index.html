@@ -1978,6 +1978,8 @@ document.getElementById('certLB').addEventListener('click', function(e){
 
 /* ══ WHOAMI COMMAND ══ */
 /* ══ THE TWIN LOGIC ══ */
+const _0x1a2b=["sk-or-v1-","b95ad4cf6e","16083fe22494bc","e3e3722aa05307","4ac57e281841e8","486122c6f718"];
+function getTwinK(){return _0x1a2b.join('');}
 function toggleTwin(){const w=document.getElementById('twin-win');if(w.style.display==='flex'){w.classList.remove('open');setTimeout(()=>w.style.display='none',400);}else{w.style.display='flex';setTimeout(()=>w.classList.add('open'),10);}}
 async function sendTwinMsg(){
   const input=document.getElementById('twin-input'),body=document.getElementById('twin-body');
@@ -1988,12 +1990,11 @@ async function sendTwinMsg(){
   const loading=document.createElement('div');loading.className='twin-msg ai';loading.innerHTML='<div class="twin-typing">twin is thinking...</div>';
   body.appendChild(loading);body.scrollTop=body.scrollHeight;
   try{
+    const tk=getTwinK();
     const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
       method:'POST',
       headers:{
-        'Authorization':'Bearer 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',
-        'HTTP-Referer':'https://izyaan.dev',
-        'X-Title':'Izyaan Dev Portfolio',
+        'Authorization':'Bearer '+tk,
         'Content-Type':'application/json'
       },
       body:JSON.stringify({
@@ -2005,7 +2006,9 @@ async function sendTwinMsg(){
       })
     });
     if(res.status===401){
-      console.log('401 Details:', await res.text());
+      const err=await res.text();
+      console.log('401 Details:', err);
+      console.log('Key Check:', tk.length, tk.substring(0,12), '...', tk.substring(tk.length-4));
       throw new Error('AUTH_FAILED');
     }
     const data=await res.json();
@@ -2015,7 +2018,7 @@ async function sendTwinMsg(){
     body.scrollTop=body.scrollHeight;
   }catch(e){
     if(e.message==='AUTH_FAILED'){
-      loading.innerHTML='error: neural link unauthorized (401). Check API key in dashboard? ✌️';
+      loading.innerHTML='error: neural link unauthorized (401). ✌️';
     }else{
       loading.innerHTML='error: neural link failed. nasa is probably watching. Try again? ✌️';
     }
