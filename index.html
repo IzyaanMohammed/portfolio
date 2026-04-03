@@ -34,11 +34,12 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;over
 #bg{position:fixed;inset:0;z-index:0;pointer-events:none}
 #sp{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--green),var(--blue),var(--purple),var(--orange));z-index:400;transition:width .05s}
 /* CURSOR */
-.cur{width:10px;height:10px;background:var(--green);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:width .2s,height .2s,background .3s}
-.cur-ring{width:36px;height:36px;border:1px solid rgba(0,255,148,.35);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .15s ease}
-body.ch .cur{width:20px;height:20px;background:var(--blue)}
+/* CURSOR */
+.cur{width:10px;height:10px;background:var(--green);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference;transition:width .2s,height .2s,background .3s;will-change:transform}
+.cur-ring{width:36px;height:36px;border:1px solid rgba(0,255,148,.35);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transition:border-color .15s ease, width .3s, height .3s;will-change:transform}
+body.ch .cur{width:20px;height:20px;background:var(--blue);box-shadow:0 0 20px rgba(0,191,255,.4)}
 body.ch .cur-ring{width:54px;height:54px;border-color:rgba(0,191,255,.4)}
-.ctip{position:fixed;pointer-events:none;z-index:9997;background:rgba(4,4,11,.97);border:1px solid var(--border);padding:7px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);white-space:nowrap;transform:translate(16px,-50%);opacity:0;transition:opacity .2s;backdrop-filter:blur(12px);max-width:280px;letter-spacing:.04em}
+.ctip{position:fixed;top:0;left:0;pointer-events:none;z-index:9997;background:rgba(4,4,11,.97);border:1px solid var(--border);padding:7px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);white-space:nowrap;opacity:0;transition:opacity .2s;backdrop-filter:blur(12px);max-width:280px;letter-spacing:.04em;will-change:transform}
 .ctip.show{opacity:1}
 #toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(4,4,11,.98);border:1px solid var(--green);padding:12px 24px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--green);z-index:500;opacity:0;transition:all .4s;pointer-events:none;backdrop-filter:blur(20px);letter-spacing:.06em;max-width:380px;text-align:center}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -520,6 +521,30 @@ footer{border-top:1px solid var(--border);padding:22px 56px;display:flex;justify
 .lb-ctrl:hover{background:rgba(0,255,148,.1);border-color:var(--green);color:var(--green);transform:translateY(-2px)}
 .lb-ctrl.main{width:auto;padding:0 20px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
 .pc-shot-hd{object-position:center top!important;}
+.pc-shot-hd{object-position:center top!important;}
+
+/* ══ THE TWIN CHATBOT ══ */
+#twin-btn{position:fixed;bottom:24px;left:24px;z-index:100;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);color:var(--purple);padding:10px 20px;font-family:'JetBrains Mono',monospace;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:10px;backdrop-filter:blur(10px);transition:all .3s;clip-path:polygon(0 0,100% 0,100% 70%,85% 100%,0 100%)}
+#twin-btn:hover{background:var(--purple);color:#000;box-shadow:0 0 30px rgba(168,85,247,.4);transform:translateY(-3px)}
+#twin-btn .p{font-size:18px}
+
+#twin-win{position:fixed;bottom:80px;left:24px;width:340px;height:480px;background:rgba(4,4,11,.98);border:1px solid var(--purple);z-index:150;display:none;flex-direction:column;box-shadow:0 20px 80px rgba(0,0,0,.8);backdrop-filter:blur(20px);transform:translateY(20px);opacity:0;transition:all .4s cubic-bezier(.16,1,.3,1)}
+#twin-win.open{display:flex;transform:translateY(0);opacity:1}
+.twin-head{padding:14px 18px;background:rgba(168,85,247,.1);border-bottom:1px solid rgba(168,85,247,.2);display:flex;justify-content:space-between;align-items:center}
+.twin-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.05em;color:var(--purple);display:flex;align-items:center;gap:8px}
+.twin-close{cursor:pointer;font-size:16px;color:var(--muted);transition:color .2s}
+.twin-close:hover{color:var(--text)}
+.twin-body{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px;scrollbar-width:none}
+.twin-body::-webkit-scrollbar{display:none}
+.twin-msg{max-width:85%;padding:10px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.6;position:relative}
+.twin-msg.ai{align-self:flex-start;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.2);color:#c8b0ff}
+.twin-msg.user{align-self:flex-end;background:rgba(0,255,148,.08);border:1px solid rgba(0,255,148,.2);color:var(--green)}
+.twin-input-area{padding:14px;border-top:1px solid var(--border);display:flex;gap:10px}
+#twin-input{flex:1;background:rgba(255,255,255,.03);border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:11px;padding:9px 12px;outline:none;transition:border-color .2s}
+#twin-input:focus{border-color:var(--purple)}
+.twin-send{background:var(--purple);color:#000;border:none;padding:0 14px;cursor:pointer;font-weight:700;transition:all .2s}
+.twin-send:hover{filter:brightness(1.2)}
+.twin-typing{font-style:italic;color:var(--muted2);font-size:10px;margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -537,6 +562,21 @@ footer{border-top:1px solid var(--border);padding:22px 56px;display:flex;justify
 <div class="ctip" id="ctip"></div>
 <div id="sp"></div>
 <div id="toast"></div>
+
+<div id="twin-btn" onclick="toggleTwin()" data-tip="talk to THE_TWIN ✌️"><span class="p">✌️</span> THE_TWIN</div>
+<div id="twin-win">
+  <div class="twin-head">
+    <div class="twin-title">THE_TWIN <span style="font-size:16px">✌️</span></div>
+    <div class="twin-close" onclick="toggleTwin()">✕</div>
+  </div>
+  <div class="twin-body" id="twin-body">
+    <div class="twin-msg ai">yo. i'm the digital variant of izyaan. i ship code and skip sleep. what's the move? ✌️</div>
+  </div>
+  <div class="twin-input-area">
+    <input type="text" id="twin-input" placeholder="ask something unhinged..." onkeydown="if(e.key==='Enter')sendTwinMsg()">
+    <button class="twin-send" onclick="sendTwinMsg()">→</button>
+  </div>
+</div>
 
 <div id="lm-comment">🚨 LIGHT MODE 🚨<br><br><strong>this is a crime.</strong><br>websites shouldn't look like this.<br>it's 2025.<br><button onclick="toggleLight(true)">PLEASE TURN IT OFF</button></div>
 
@@ -1608,11 +1648,34 @@ window.addEventListener('resize',initC);initC();loop();
 
 /* ══ CURSOR ══ */
 const curEl=document.getElementById('cur'),crEl=document.getElementById('cr'),tipEl=document.getElementById('ctip');
-let tipTO;
-document.addEventListener('mousemove',e=>{
-  curEl.style.left=e.clientX+'px';curEl.style.top=e.clientY+'px';
-  setTimeout(()=>{crEl.style.left=e.clientX+'px';crEl.style.top=e.clientY+'px';},100);
-  tipEl.style.left=e.clientX+'px';tipEl.style.top=e.clientY+'px';
+let tipTO, mouseX=0, mouseY=0, curX=0, curY=0, ringX=0, ringY=0, lastX=0, lastY=0, speed=0;
+document.addEventListener('mousemove',e=>{mouseX=e.clientX;mouseY=e.clientY;});
+function updateCursor(){
+  const dx=mouseX-lastX, dy=mouseY-lastY;
+  speed = Math.min(Math.sqrt(dx*dx+dy*dy)*0.1, 15);
+  lastX=mouseX; lastY=mouseY;
+  
+  curX+=(mouseX-curX)*.28;curY+=(mouseY-curY)*.28;
+  ringX+=(mouseX-ringX)*.12;ringY+=(mouseY-ringY)*.12;
+  
+  const scale = 1 + speed*0.05;
+  curEl.style.transform=`translate3d(${curX-5}px,${curY-5}px,0) scale(${scale})`;
+  crEl.style.transform=`translate3d(${ringX-18}px,${ringY-18}px,0) scale(${1 + speed*0.02})`;
+  crEl.style.boxShadow = `0 0 ${speed*2}px var(--green)`;
+  
+  tipEl.style.transform=`translate3d(${mouseX+16}px,${mouseY-16}px,0)`;
+  requestAnimationFrame(updateCursor);
+}
+requestAnimationFrame(updateCursor);
+// Magnetic Effect
+document.querySelectorAll('.btn-g, .btn-o, .btn-p, .nlinks a, .sdash-item').forEach(el=>{
+  el.addEventListener('mousemove', e=>{
+    const r=el.getBoundingClientRect();
+    const x=e.clientX - (r.left + r.width/2);
+    const y=e.clientY - (r.top + r.height/2);
+    el.style.transform = `translate3d(${x*0.15}px, ${y*0.25}px, 0)`;
+  });
+  el.addEventListener('mouseleave', ()=>{el.style.transform = '';});
 });
 function setTip(t){clearTimeout(tipTO);tipEl.textContent='// '+t;tipEl.classList.add('show');}
 function hideTip(){clearTimeout(tipTO);tipTO=setTimeout(()=>tipEl.classList.remove('show'),150);}
@@ -1913,8 +1976,44 @@ document.getElementById('certLB').addEventListener('click', function(e){
 });
 
 /* ══ WHOAMI COMMAND ══ */
-cmds.whoami=()=>`<div class="tl"><span class="v">izyaan</span> <span class="m">—</span> <span class="k">15yo builder, Dubai 🇦🇪</span></div><div class="tl"><span class="m">→</span> <span class="v">NASA Global Nominee (2023)</span></div><div class="tl"><span class="m">→</span> <span class="v">5 shipped products, 26+ achievements</span></div><div class="tl"><span class="m">→</span> <span class="v">started coding at 10. hasn't stopped.</span></div><div class="tl"><span class="k">→ run: hire</span></div>`;
-
+/* ══ THE TWIN LOGIC ══ */
+function toggleTwin(){const w=document.getElementById('twin-win');if(w.style.display==='flex'){w.classList.remove('open');setTimeout(()=>w.style.display='none',400);}else{w.style.display='flex';setTimeout(()=>w.classList.add('open'),10);}}
+async function sendTwinMsg(){
+  const input=document.getElementById('twin-input'),body=document.getElementById('twin-body');
+  const val=input.value.trim();if(!val)return;
+  input.value='';
+  body.innerHTML+=`<div class="twin-msg user">${val}</div>`;
+  body.scrollTop=body.scrollHeight;
+  const loading=document.createElement('div');loading.className='twin-msg ai';loading.innerHTML='<div class="twin-typing">twin is thinking...</div>';
+  body.appendChild(loading);body.scrollTop=body.scrollHeight;
+  try{
+    const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+      method:'POST',
+      headers:{
+        'Authorization':'Bearer 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',
+        'HTTP-Referer':'https://izyaan.dev',
+        'X-Title':'Izyaan Dev Portfolio',
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify({
+        model:'google/gemini-2.0-flash-lite-preview-02-05:free',
+        messages:[
+          {role:'system',content:'You are THE_TWIN, the digital copy of Izyaan. You are 15, live in Dubai, a NASA Global Nominee, and a serial builder. You are funny, witty, cool, and slightly unhinged but brilliant. You speak in a mix of Gen Z/Alpha slang and hardcore tech dev talk. Keep it brief and punchy. Use peace symbol ✌️ often. You ship real products, zero tutorial clones. You love Python, FastAPI, and Next.js.'},
+          {role:'user',content:val}
+        ]
+      })
+    });
+    const data=await res.json();
+    loading.remove();
+    const txt=data.choices[0].message.content;
+    body.innerHTML+=`<div class="twin-msg ai">${txt}</div>`;
+    body.scrollTop=body.scrollHeight;
+  }catch(e){
+    loading.innerHTML='error: neural link failed. nasa is probably watching. Try again? ✌️';
+  }
+}
+// Fix the enter key event in HTML
+document.getElementById('twin-input').onkeydown=(e)=>{if(e.key==='Enter')sendTwinMsg();};
 
 </script>
 
