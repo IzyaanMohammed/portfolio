@@ -1989,16 +1989,18 @@ async function sendTwinMsg(){
   body.scrollTop=body.scrollHeight;
   const loading=document.createElement('div');loading.className='twin-msg ai';loading.innerHTML='<div class="twin-typing">twin is thinking...</div>';
   body.appendChild(loading);body.scrollTop=body.scrollHeight;
-  try{
+    try{
     const tk=getTwinK();
     const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
       method:'POST',
       headers:{
         'Authorization':'Bearer '+tk,
+        'HTTP-Referer':'https://izyaan.dev',
+        'X-Title':'Izyaan Dev Portfolio',
         'Content-Type':'application/json'
       },
       body:JSON.stringify({
-        model:'google/gemini-2.0-flash-exp:free',
+        model:'openrouter/free',
         messages:[
           {role:'system',content:'You are THE_TWIN, the digital copy of Izyaan. You are 15, live in Dubai, a NASA Global Nominee, and a serial builder. You are funny, witty, cool, and slightly unhinged but brilliant. You speak in a mix of Gen Z/Alpha slang and hardcore tech dev talk. Keep it brief and punchy. Use peace symbol ✌️ often. You ship real products, zero tutorial clones. You love Python, FastAPI, and Next.js.'},
           {role:'user',content:val}
