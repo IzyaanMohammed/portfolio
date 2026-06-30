@@ -4529,7 +4529,8 @@
               class="v">products:</span> <span class="k">5 shipped</span> &nbsp;<span class="v">started:</span> <span
               class="v">age 10</span></div>
           <div class="tl" style="margin-top:4px"><span class="pr">izyaan@portfolio</span><span class="m">:~$</span>
-            <span class="c">cat status.txt</span></div>
+            <span class="c">cat status.txt</span>
+          </div>
           <div class="tl"><span class="m">→</span> <span class="v">ConvertRocket:</span> live, growing</div>
           <div class="tl"><span class="m">→</span> <span class="v">HiDoctor:</span> live on web + Google Play</div>
           <div class="tl"><span class="m">→</span> <span class="v">CORS bug in GrowthOS:</span> <span class="e">still
@@ -5127,58 +5128,58 @@
           aiMsg.innerHTML = e.message === 'AUTH_FAILED' ? 'error: neural link unauthorized (401). ✌️' : 'error: neural link failed. Try again? ✌️';
         }
       }
-�� */
-/* ══ THE TWIN LOGIC ══ */
-const _0x1a2b=["sk-or-v1-","b95ad4cf6e","16083fe22494bc","e3e3722aa05307","4ac57e281841e8","486122c6f718"];
-function getTwinK(){return _0x1a2b.join('');}
-function toggleTwin(){const w=document.getElementById('twin-win');if(w.style.display==='flex'){w.classList.remove('open');setTimeout(()=>w.style.display='none',400);}else{w.style.display='flex';setTimeout(()=>w.classList.add('open'),10);}}
-async function sendTwinMsg(){
-  const input=document.getElementById('twin-input'),body=document.getElementById('twin-body');
-  const val=input.value.trim();if(!val)return;
-  input.value='';
-  body.innerHTML+=`<div class="twin-msg user">${val}</div>`;
-  body.scrollTop=body.scrollHeight;
-  const loading=document.createElement('div');loading.className='twin-msg ai';loading.innerHTML='<div class="twin-typing">twin is thinking...</div>';
-  body.appendChild(loading);body.scrollTop=body.scrollHeight;
-    try{
-    const tk=getTwinK();
-    const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
-      method:'POST',
-      headers:{
-        'Authorization':'Bearer '+tk,
-        'HTTP-Referer':'https://izyaan.dev',
-        'X-Title':'Izyaan Dev Portfolio',
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify({
-        model:'openrouter/free',
-        messages:[
-          {role:'system',content:'You are THE_TWIN, the digital copy of Izyaan. You are 15, live in Dubai, a NASA Global Nominee, and a serial builder. You are funny, witty, cool, and slightly unhinged but brilliant. You speak in a mix of Gen Z/Alpha slang and hardcore tech dev talk. Keep it brief and punchy. Use peace symbol ✌️ often. You ship real products, zero tutorial clones. You love Python, FastAPI, and Next.js.'},
-          {role:'user',content:val}
-        ]
-      })
-    });
-    if(res.status===401){
-      const err=await res.text();
-      console.log('401 Details:', err);
-      console.log('Key Check:', tk.length, tk.substring(0,12), '...', tk.substring(tk.length-4));
-      throw new Error('AUTH_FAILED');
-    }
-    const data=await res.json();
-    loading.remove();
-    const txt=data.choices[0].message.content;
-    body.innerHTML+=`<div class="twin-msg ai">${txt}</div>`;
-    body.scrollTop=body.scrollHeight;
-  }catch(e){
-    if(e.message==='AUTH_FAILED'){
-      loading.innerHTML='error: neural link unauthorized (401). ✌️';
-    }else{
-      loading.innerHTML='error: neural link failed. nasa is probably watching. Try again? ✌️';
-    }
-  }
-}
-// Fix the enter key event in HTML
-document.getElementById('twin-input').onkeydown=(e)=>{if(e.key==='Enter')sendTwinMsg();};
+
+      /* ══ THE TWIN LOGIC ══ */
+      const _0x1a2b = ["sk-or-v1-", "b95ad4cf6e", "16083fe22494bc", "e3e3722aa05307", "4ac57e281841e8", "486122c6f718"];
+      function getTwinK() { return _0x1a2b.join(''); }
+      function toggleTwin() { const w = document.getElementById('twin-win'); if (w.style.display === 'flex') { w.classList.remove('open'); setTimeout(() => w.style.display = 'none', 400); } else { w.style.display = 'flex'; setTimeout(() => w.classList.add('open'), 10); } }
+      async function sendTwinMsg() {
+        const input = document.getElementById('twin-input'), body = document.getElementById('twin-body');
+        const val = input.value.trim(); if (!val) return;
+        input.value = '';
+        body.innerHTML += `<div class="twin-msg user">${val}</div>`;
+        body.scrollTop = body.scrollHeight;
+        const loading = document.createElement('div'); loading.className = 'twin-msg ai'; loading.innerHTML = '<div class="twin-typing">twin is thinking...</div>';
+        body.appendChild(loading); body.scrollTop = body.scrollHeight;
+        try {
+          const tk = getTwinK();
+          const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Authorization': 'Bearer ' + tk,
+              'HTTP-Referer': 'https://izyaan.dev',
+              'X-Title': 'Izyaan Dev Portfolio',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              model: 'openrouter/free',
+              messages: [
+                { role: 'system', content: 'You are THE_TWIN, the digital copy of Izyaan. You are 15, live in Dubai, a NASA Global Nominee, and a serial builder. You are funny, witty, cool, and slightly unhinged but brilliant. You speak in a mix of Gen Z/Alpha slang and hardcore tech dev talk. Keep it brief and punchy. Use peace symbol ✌️ often. You ship real products, zero tutorial clones. You love Python, FastAPI, and Next.js.' },
+                { role: 'user', content: val }
+              ]
+            })
+          });
+          if (res.status === 401) {
+            const err = await res.text();
+            console.log('401 Details:', err);
+            console.log('Key Check:', tk.length, tk.substring(0, 12), '...', tk.substring(tk.length - 4));
+            throw new Error('AUTH_FAILED');
+          }
+          const data = await res.json();
+          loading.remove();
+          const txt = data.choices[0].message.content;
+          body.innerHTML += `<div class="twin-msg ai">${txt}</div>`;
+          body.scrollTop = body.scrollHeight;
+        } catch (e) {
+          if (e.message === 'AUTH_FAILED') {
+            loading.innerHTML = 'error: neural link unauthorized (401). ✌️';
+          } else {
+            loading.innerHTML = 'error: neural link failed. nasa is probably watching. Try again? ✌️';
+          }
+        }
+      }
+      // Fix the enter key event in HTML
+      document.getElementById('twin-input').onkeydown = (e) => { if (e.key === 'Enter') sendTwinMsg(); };
 
   </script>
 
